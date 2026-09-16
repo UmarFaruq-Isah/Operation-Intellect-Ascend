@@ -2,7 +2,7 @@
 const totalDays = 1000;
 
 // Set start date explicitly to today (Day 1)
-const startDate = new Date(2026, 2, 19); 
+const startDate = new Date(2026, 9, 1);
 // Note: months are 0-based in JS (0=Jan, 1=Feb, 2=Mar)
 
 // Background gradients (rotate every 100 days)
@@ -211,10 +211,19 @@ function updateTracker() {
   const now = new Date();
 
   // Normalize both dates to midnight for calendar-based difference
-  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const startMidnight = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+  const todayMidnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+  );
+  const startMidnight = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate(),
+  );
 
-  const diffDays = Math.floor((todayMidnight - startMidnight) / (1000 * 60 * 60 * 24)) + 1;
+  const diffDays =
+    Math.floor((todayMidnight - startMidnight) / (1000 * 60 * 60 * 24)) + 1;
 
   let streakDay = diffDays > 0 ? diffDays : 0;
   if (streakDay > totalDays) streakDay = totalDays;
@@ -236,10 +245,16 @@ function updateTracker() {
   document.getElementById("quote").textContent = getNextQuote();
 
   // Milestone celebrations
-  if (streakDay > 0 && streakDay % 100 === 0) {
+  if (streakDay > 0 && streakDay % 100 === 0 && streakDay !== 1000) {
     triggerConfetti();
     document.getElementById("message").textContent =
       `🎉 Major Milestone Reached: Day ${streakDay}! Keep climbing! 🎉`;
+  } else if (streakDay === 1000) {
+    triggerConfetti();
+    document.getElementById("message").textContent =
+      `🎉 You Made It 🫵; 1000 Days Complete! You didn't just finish the challenge,
+
+You became the person who could. 🎉`;
   } else {
     document.getElementById("message").textContent = "";
   }
